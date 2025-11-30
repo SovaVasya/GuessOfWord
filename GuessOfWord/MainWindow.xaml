@@ -1,0 +1,194 @@
+﻿<Window x:Class="GuessOfWord.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GuessOfWord"
+        mc:Ignorable="d"
+        Title="GuessOfWord" Height="700" Width="500" Background="#000D20">
+    <Window.Resources>
+        <Style x:Key="CRButton" TargetType="Button">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#5C718F"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                        Background="{TemplateBinding Background}" 
+                        CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CRRButton" TargetType="Button">
+            <Setter Property="Width" Value="295"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#5C718F"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                Background="{TemplateBinding Background}" 
+                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MB" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="223.013"/>
+        </Grid.RowDefinitions>
+
+        <!--ПЕРВАЯ СТРОКА-->
+        <Image x:Name="Img00" Margin="114,110,332,298" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img01" Margin="172,110,275,298" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img02" Margin="228,110,219,298" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img03" Margin="285,110,162,298" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img04" Margin="342,110,105,298" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+
+        <!--ВТОРАЯ СТРОКА-->
+        <Image x:Name="Img10" Margin="115,165,332,243" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img11" Margin="172,165,275,243" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img12" Margin="228,165,219,243" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img13" Margin="285,165,162,243" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img14" Margin="342,165,105,243" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+
+        <!--ТРЕТЬЯ СТРОКА-->
+        <Image x:Name="Img20" Margin="115,221,332,187" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img21" Margin="172,221,275,187" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img22" Margin="228,221,219,187" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img23" Margin="285,221,162,187" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img24" Margin="342,221,105,187" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+
+        <!--ЧЕТВЕРТАЯ СТРОКА-->
+        <Image x:Name="Img30" Margin="115,276,332,132" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img31" Margin="172,276,275,132" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img32" Margin="228,276,219,132" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img33" Margin="285,276,162,132" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img34" Margin="342,276,105,132" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+
+        <!--ПЯТАЯ СТРОКА-->
+        <Image x:Name="Img40" Margin="115,332,332,76" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img41" Margin="172,332,275,76" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img42" Margin="228,332,219,76" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img43" Margin="285,332,162,76" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img44" Margin="342,332,105,76" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+
+        <!--ШЕСТАЯ СТРОКА-->
+        <Image x:Name="Img50" Margin="115,388,332,20" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img51" Margin="172,388,275,20" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img52" Margin="228,388,219,20" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img53" Margin="285,388,162,20" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+        <Image x:Name="Img54" Margin="342,388,105,20" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53" Width="53"/>
+
+        <!-- БУКВЫ -->
+        <!-- ПЕРВАЯ СТРОКА -->
+        <Label x:Name="Lbl00" Content="" Foreground="White" Margin="119,106,335,307" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl01" Content="" Foreground="White" Margin="177,106,277,307" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl02" Content="" Foreground="White" Margin="234,106,220,307" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl03" Content="" Foreground="White" Margin="290,106,164,307" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl04" Content="" Foreground="White" Margin="348,106,106,307" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- ВТОРАЯ СТРОКА -->
+        <Label x:Name="Lbl10" Content="" Foreground="White" Margin="119,161,335,252" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl11" Content="" Foreground="White" Margin="177,161,277,252" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl12" Content="" Foreground="White" Margin="234,161,220,252" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl13" Content="" Foreground="White" Margin="290,161,164,252" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl14" Content="" Foreground="White" Margin="348,161,106,252" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <!-- ТРЕТЬЯ СТРОКА -->
+        <Label x:Name="Lbl20" Content="" Foreground="White" Margin="119,217,335,196" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl21" Content="" Foreground="White" Margin="177,217,277,196" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl22" Content="" Foreground="White" Margin="234,217,220,196" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl23" Content="" Foreground="White" Margin="290,217,164,196" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl24" Content="" Foreground="White" Margin="348,217,106,196" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- ЧЕТВЕРТАЯ СТРОКА -->
+        <Label x:Name="Lbl30" Content="" Foreground="White" Margin="119,272,335,141" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl31" Content="" Foreground="White" Margin="177,272,277,141" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl32" Content="" Foreground="White" Margin="234,272,220,141" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl33" Content="" Foreground="White" Margin="290,272,164,141" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl34" Content="" Foreground="White" Margin="348,272,106,141" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- ПЯТАЯ СТРОКА -->
+        <Label x:Name="Lbl40" Content="" Foreground="White" Margin="119,328,335,85" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl41" Content="" Foreground="White" Margin="177,328,277,85" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl42" Content="" Foreground="White" Margin="234,328,220,85" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl43" Content="" Foreground="White" Margin="290,328,164,85" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl44" Content="" Foreground="White" Margin="348,328,106,85" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- ШЕСТАЯ СТРОКА -->
+        <Label x:Name="Lbl50" Content="" Foreground="White" Margin="119,384,335,29" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl51" Content="" Foreground="White" Margin="177,384,277,29" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl52" Content="" Foreground="White" Margin="234,384,220,29" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl53" Content="" Foreground="White" Margin="290,384,164,29" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Label x:Name="Lbl54" Content="" Foreground="White" Margin="348,384,106,29" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!--КЛАВИАТУРА С КНОПКАМИ-->
+        <Button Content="Й" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="78,10,395,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Ц" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="112,10,361,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="У" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="146,10,328,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="К" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="178,10,295,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Е" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="212,10,262,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Н" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="244,10,229,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Г" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="276,10,197,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Ш" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="308,10,165,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Щ" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="340,10,133,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="З" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="372,10,102,173" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Х" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="404,10,70,173" Height="40" Width="27" Grid.Row="1"/>
+
+        <Button Content="Ф" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="78,55,395,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Ы" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="112,55,361,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="В" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="145,55,328,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="А" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="178,55,295,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="П" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="211,55,262,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Р" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="244,55,230,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="О" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="276,55,197,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Л" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="308,55,165,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Д" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="340,55,133,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Ж" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="371,55,102,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Э" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="403,55,70,128" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="⌫" Style="{StaticResource CRButton}" Click="BackspaceButton_Click" Margin="390,100,83,83" Height="40" Width="27" Grid.Row="1"/>
+
+        <Button Content="Я" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="98,100,374,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Ч" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="132,100,341,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="С" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="164,100,308,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="М" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="198,100,276,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="И" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="230,100,242,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Т" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="262,100,210,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Ь" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="294,100,178,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Б" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="326,100,146,83" Height="40" Width="27" Grid.Row="1"/>
+        <Button Content="Ю" Style="{StaticResource CRButton}" Click="KeyboardButton_Click" Margin="358,100,116,83" Height="40" Width="27" Grid.Row="1"/>
+
+        <Button Content="Проверить слово" Style="{StaticResource CRRButton}" Click="EnterButton_Click" Margin="154,145,146,38" Height="40" Width="200"  Grid.Row="1"/>
+
+        <!--ПРОЧЕЕ-->
+        <Rectangle HorizontalAlignment="Center" Height="27" Margin="0,37,0,0" Stroke="Black" VerticalAlignment="Top" Width="183" Fill="#0091B2" RadiusX="15" RadiusY="15"/>
+        <Label Content="#Угадай слово" Foreground="White" Margin="196,36,196,397" RenderTransformOrigin="0.518,0.684" Style="{StaticResource MB}"/>
+    </Grid>
+</Window>

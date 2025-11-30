@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\Montserrat-Bold.ttf" />
+    <None Remove="Images\BackgroundFonts.png" />
+    <None Remove="Images\fALSErectangle.png" />
+    <None Remove="Images\nULLrectangle.png" />
+    <None Remove="Images\Truerectangle.png" />
+    <None Remove="Images\Плашка.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\Montserrat-Bold.ttf" />
+    <Resource Include="Images\BackgroundFonts.png" />
+    <Resource Include="Images\fALSErectangle.png" />
+    <Resource Include="Images\nULLrectangle.png" />
+    <Resource Include="Images\Truerectangle.png" />
+    <Resource Include="Images\Плашка.png" />
+  </ItemGroup>
+
+</Project>

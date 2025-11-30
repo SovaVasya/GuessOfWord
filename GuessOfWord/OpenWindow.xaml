@@ -1,0 +1,94 @@
+﻿<Window x:Class="GuessOfWord.OpenWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GuessOfWord"
+        mc:Ignorable="d"
+        Title="OpenWindow" Height="700" Width="500" Background="#000D20">
+    <Window.Resources>
+        <Style x:Key="CRButton" TargetType="Button">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#5C718F"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+                    Background="{TemplateBinding Background}" 
+                    CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="CRRButton" TargetType="Button">
+            <Setter Property="Width" Value="295"/>
+            <Setter Property="Height" Value="23"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#5C718F"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" 
+            Background="{TemplateBinding Background}" 
+            CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="MB" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Image Margin="123,278,123,132" Source="/Images/fALSErectangle.png" Stretch="Fill"/>
+        <Image Margin="80,118,366,513" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="139,117,307,514" Source="/Images/Truerectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="198,117,248,514" Source="/Images/fALSErectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="258,117,188,514" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="317,117,128,514" Source="/Images/Truerectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="377,117,69,514" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="113,177,333,454" Source="/Images/fALSErectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="173,177,273,454" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="232,177,214,454" Source="/Images/Truerectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="349,177,97,454" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="291,177,155,454" Source="/Images/fALSErectangle.png" Stretch="Fill" Height="53"/>
+
+        <Label Content="У" Foreground="White" Margin="94,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="29"/>
+        <Label Content="Г" Foreground="White" Margin="153,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="26"/>
+        <Label Content="А" Foreground="White" Margin="209,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="Д" Foreground="White" Margin="268,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="А" Foreground="White" Margin="328,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32"/>
+        <Label Content="Й" Foreground="White" Margin="386,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="36"/>
+        <Label Content="С" Foreground="White" Margin="125,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30"/>
+        <Label Content="Л" Foreground="White" Margin="184,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32"/>
+        <Label Content="О" Foreground="White" Margin="242,175,0,0" FontSize="30" Style="{StaticResource MB}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="33"/>
+        <Label Content="В" Foreground="White" Margin="303,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30"/>
+        <Label Content="О" Foreground="White" Margin="359,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="34"/>
+
+
+        <Button Content="Играть" Click="Game" Style="{StaticResource CRRButton}" Margin="150,302,150,342" Height="40" Width="200" Background="#FF5C8F68"/>
+        <Button Content="Правила" Click="Rule" Style="{StaticResource CRRButton}" Margin="150,375,150,269" Height="40" Width="200"/>
+        <Button Content="Выйти" Click="Exit" Style="{StaticResource CRRButton}" Margin="150,478,150,166" Height="40" Width="200" Background="#FF32568A"/>
+
+    </Grid>
+</Window>
