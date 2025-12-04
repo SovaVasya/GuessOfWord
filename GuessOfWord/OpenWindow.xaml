@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GuessOfWord"
         mc:Ignorable="d"
-        Title="OpenWindow" Height="700" Width="500" Background="#000D20">
+        Title="OpenWindow" Height="700" Width="500" Background="#000D20" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="CRButton" TargetType="Button">
             <Setter Property="Width" Value="20"/>
@@ -61,29 +61,29 @@
     </Window.Resources>
     <Grid>
         <Image Margin="123,278,123,132" Source="/Images/fALSErectangle.png" Stretch="Fill"/>
-        <Image Margin="80,118,366,513" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="139,117,307,514" Source="/Images/Truerectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="198,117,248,514" Source="/Images/fALSErectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="258,117,188,514" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="317,117,128,514" Source="/Images/Truerectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="377,117,69,514" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="113,177,333,454" Source="/Images/fALSErectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="173,177,273,454" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="232,177,214,454" Source="/Images/Truerectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="349,177,97,454" Source="/Images/nULLrectangle.png" Stretch="Fill" Height="53"/>
-        <Image Margin="291,177,155,454" Source="/Images/fALSErectangle.png" Stretch="Fill" Height="53"/>
+        <Image Margin="52,64,388,558" Source="/Images/nULLrectangle.png" Stretch="Fill"/>
+        <Image Margin="118,63,322,560" Source="/Images/Truerectangle.png" Stretch="Fill"/>
+        <Image Margin="183,63,256,560" Source="/Images/fALSErectangle.png" Stretch="Fill"/>
+        <Image Margin="251,63,190,560" Source="/Images/nULLrectangle.png" Stretch="Fill"/>
+        <Image Margin="316,63,123,560" Source="/Images/Truerectangle.png" Stretch="Fill"/>
+        <Image Margin="383,63,57,560" Source="/Images/nULLrectangle.png" Stretch="Fill"/>
+        <Image Margin="89,133,351,490" Source="/Images/fALSErectangle.png" Stretch="Fill"/>
+        <Image Margin="156,133,285,490" Source="/Images/nULLrectangle.png" Stretch="Fill"/>
+        <Image Margin="221,133,218,490" Source="/Images/Truerectangle.png" Stretch="Fill"/>
+        <Image Margin="351,133,88,490" Source="/Images/nULLrectangle.png" Stretch="Fill"/>
+        <Image Margin="287,133,153,490" Source="/Images/fALSErectangle.png" Stretch="Fill"/>
 
-        <Label Content="У" Foreground="White" Margin="94,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="29"/>
-        <Label Content="Г" Foreground="White" Margin="153,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="26"/>
-        <Label Content="А" Foreground="White" Margin="209,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label Content="Д" Foreground="White" Margin="268,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Label Content="А" Foreground="White" Margin="328,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32"/>
-        <Label Content="Й" Foreground="White" Margin="386,115,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="36"/>
-        <Label Content="С" Foreground="White" Margin="125,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30"/>
-        <Label Content="Л" Foreground="White" Margin="184,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32"/>
-        <Label Content="О" Foreground="White" Margin="242,175,0,0" FontSize="30" Style="{StaticResource MB}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="33"/>
-        <Label Content="В" Foreground="White" Margin="303,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30"/>
-        <Label Content="О" Foreground="White" Margin="359,175,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="34"/>
+        <Label Content="У" Foreground="White" Margin="66,66,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="32" Height="58"/>
+        <Label Content="Г" Foreground="White" Margin="133,66,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="58"/>
+        <Label Content="А" Foreground="White" Margin="196,66,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="58" Width="34"/>
+        <Label Content="Д" Foreground="White" Margin="262,65,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="58" Width="38"/>
+        <Label Content="А" Foreground="White" Margin="328,66,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="36" Height="58"/>
+        <Label Content="Й" Foreground="White" Margin="392,68,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="42" Height="58"/>
+        <Label Content="С" Foreground="White" Margin="102,136,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="34" Height="58"/>
+        <Label Content="Л" Foreground="White" Margin="167,136,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="37" Height="58"/>
+        <Label Content="О" Foreground="White" Margin="234,136,0,0" FontSize="30" Style="{StaticResource MB}" VerticalAlignment="Top" Width="36" Height="58" HorizontalAlignment="Left"/>
+        <Label Content="В" Foreground="White" Margin="300,136,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="34" Height="58"/>
+        <Label Content="О" Foreground="White" Margin="363,136,0,0" FontSize="30" Style="{StaticResource MB}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="37" Height="58"/>
 
 
         <Button Content="Играть" Click="Game" Style="{StaticResource CRRButton}" Margin="150,302,150,342" Height="40" Width="200" Background="#FF5C8F68"/>
