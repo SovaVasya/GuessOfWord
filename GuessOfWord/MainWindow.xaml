@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GuessOfWord"
         mc:Ignorable="d"
-        Title="GuessOfWord" Height="700" Width="500" Background="#000D20">
+        Title="GuessOfWord" Height="700" Width="500" Background="#000D20" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="CRButton" TargetType="Button">
             <Setter Property="Width" Value="20"/>
