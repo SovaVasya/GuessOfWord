@@ -4,342 +4,368 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace GuessOfWord
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private const int MaxAttempts = 6;
         private const int WordLength = 5;
 
-        private int currentAttempt = 0;
-        private int currentPosition = 0;
+        private readonly WordService wordService = new WordService();
+        private readonly List<CellView> cells = new List<CellView>();
 
-        // Список русских слов из 5 букв
-        private List<string> russianWords = new List<string>
+        private string targetWord = string.Empty;
+        private int currentAttempt;
+        private int currentPosition;
+        private bool gameFinished;
+
+        private static readonly Dictionary<Key, string> RussianKeyboardMap = new Dictionary<Key, string>
         {
-            "АБЗАЦ", "АБОРТ", "АВАНС", "АВЕНЮ", "АВОСЬ", "АВТОР", "АГАМА", "АГАМИ", "АГЕНТ", "АДЕПТ",
-            "АДРЕС", "АЗАРТ", "АЗИАТ", "АЙРАН", "АКРИЛ", "АКТЕР", "АКТИВ", "АКУЛА", "АКЦИЯ", "АЛГОЛ",
-            "АЛИБИ", "АЛКАШ", "АЛЛЕЯ", "АЛЛЮР", "АЛМАЗ", "АЛТЫН", "АЛЬФА", "АМБАР", "АМЕБА", "АМПЕР",
-            "АОРТА", "АПОРТ", "АНГЕЛ", "АНОНС", "АРБУЗ", "АРЕНА", "АРЕСТ", "АРМИЯ", "АРКАН", "АРХИВ",
-            "АСТМА", "АСТРА", "АТАКА", "АТЛАС", "АТЛЕТ", "АУДИТ", "АФЕКТ", "АФЕРА", "АФИША", "АКУЛА",
-            "БАГАЖ", "БАГЕТ", "БАЗАР", "БАЛЕТ", "БАНАН", "БАНДА", "БАНКА", "БАРИЙ", "БАСНЯ", "БАТОН",
-            "БАШНЯ", "БЕГУН", "БЕДРО", "БЕКОН", "БЕЛЯШ", "БЕТОН", "БИЗОН", "БИЛЕТ", "БИРКА", "БИСЕР",
-            "БИТВА", "БЛЕСК", "БЛАНК", "БЛЮДО", "БОМБА", "БРЕМЯ", "БРАСС", "БРЕНД", "БРОВЬ", "БРОНЬ",
-            "БЫТИЕ", "БУКВА", "БУТИК", "БУТОН", "БУФЕТ", "БУХТА", "БРОНЯ", "БРЮКИ", "БИРЖА", "БОНУС",
-            "БОРЕЦ", "БОЧКА", "БЛАГО", "БЛОХА", "БЕЙДЖ"
+            { Key.Q, "Й" }, { Key.W, "Ц" }, { Key.E, "У" }, { Key.R, "К" }, { Key.T, "Е" },
+            { Key.Y, "Н" }, { Key.U, "Г" }, { Key.I, "Ш" }, { Key.O, "Щ" }, { Key.P, "З" },
+
+            { Key.A, "Ф" }, { Key.S, "Ы" }, { Key.D, "В" }, { Key.F, "А" }, { Key.G, "П" },
+            { Key.H, "Р" }, { Key.J, "О" }, { Key.K, "Л" }, { Key.L, "Д" },
+
+            { Key.Z, "Я" }, { Key.X, "Ч" }, { Key.C, "С" }, { Key.V, "М" }, { Key.B, "И" },
+            { Key.N, "Т" }, { Key.M, "Ь" },
+
+            { Key.Oem4, "Х" },
+            { Key.Oem1, "Ж" },
+            { Key.Oem7, "Э" },
+            { Key.OemComma, "Б" },
+            { Key.OemPeriod, "Ю" }
         };
 
-        private string targetWord; // Загаданное слово
-        private List<Label> letterLabels;
-        private List<Image> letterImages;
         public MainWindow()
         {
             InitializeComponent();
-            Height += 23;
-            Width += 23;
-            InitializeGame();
-            this.PreviewKeyDown += MainWindow_PreviewKeyDown;
+
+            ThemeHelper.ApplyTheme(this, RootGrid);
+            CreateBoard();
+            CreateKeyboard();
         }
 
-        private void InitializeGame()
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Инициализируем списки
-            letterLabels = new List<Label>
+            IsEnabled = false;
+            StatusText.Text = "Загрузка словаря...";
+
+            await wordService.LoadAsync();
+
+            IsEnabled = true;
+            StartNewGame();
+            Focus();
+        }
+
+        private void CreateBoard()
+        {
+            BoardGrid.Children.Clear();
+            cells.Clear();
+
+            for (int i = 0; i < MaxAttempts * WordLength; i++)
             {
-                Lbl00, Lbl01, Lbl02, Lbl03, Lbl04,
-                Lbl10, Lbl11, Lbl12, Lbl13, Lbl14,
-                Lbl20, Lbl21, Lbl22, Lbl23, Lbl24,
-                Lbl30, Lbl31, Lbl32, Lbl33, Lbl34,
-                Lbl40, Lbl41, Lbl42, Lbl43, Lbl44,
-                Lbl50, Lbl51, Lbl52, Lbl53, Lbl54
+                var textBlock = new TextBlock
+                {
+                    Text = string.Empty,
+                    Foreground = Brushes.White,
+                    FontSize = 30,
+                    FontWeight = FontWeights.Bold,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                var border = new Border
+                {
+                    Width = 62,
+                    Height = 62,
+                    Margin = new Thickness(4),
+                    CornerRadius = new CornerRadius(10),
+                    Background = new SolidColorBrush(Color.FromRgb(30, 41, 59)),
+                    BorderBrush = new SolidColorBrush(Color.FromRgb(71, 85, 105)),
+                    BorderThickness = new Thickness(2),
+                    Child = textBlock
+                };
+
+                cells.Add(new CellView(border, textBlock));
+                BoardGrid.Children.Add(border);
+            }
+        }
+
+        private void CreateKeyboard()
+        {
+            KeyboardPanel.Children.Clear();
+
+            string[] rows =
+            {
+                "ЙЦУКЕНГШЩЗХ",
+                "ФЫВАПРОЛДЖЭ",
+                "ЯЧСМИТЬБЮ"
             };
 
-            letterImages = new List<Image>
+            foreach (string row in rows)
             {
-                Img00, Img01, Img02, Img03, Img04,
-                Img10, Img11, Img12, Img13, Img14,
-                Img20, Img21, Img22, Img23, Img24,
-                Img30, Img31, Img32, Img33, Img34,
-                Img40, Img41, Img42, Img43, Img44,
-                Img50, Img51, Img52, Img53, Img54
-            };
+                var rowPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center
+                };
 
-            // Выбираем случайное слово
-            Random random = new Random();
-            targetWord = russianWords[random.Next(russianWords.Count)].ToUpper();
+                foreach (char letter in row)
+                {
+                    var button = new Button
+                    {
+                        Content = letter.ToString(),
+                        Tag = letter.ToString(),
+                        Style = (Style)FindResource("KeyboardButton")
+                    };
 
-            // Очищаем все буквы и сбрасываем фон
-            foreach (var label in letterLabels)
-            {
-                label.Content = "";
+                    button.Click += KeyboardButton_Click;
+                    rowPanel.Children.Add(button);
+                }
+
+                KeyboardPanel.Children.Add(rowPanel);
             }
+        }
 
-            foreach (var image in letterImages)
-            {
-                SetImageSource(image, "nULLrectangle.png");
-            }
+        private void StartNewGame()
+        {
+            targetWord = wordService.GetRandomFiveLetterWord();
 
             currentAttempt = 0;
             currentPosition = 0;
+            gameFinished = false;
+
+            foreach (var cell in cells)
+            {
+                cell.Text.Text = string.Empty;
+                cell.Box.Background = new SolidColorBrush(Color.FromRgb(30, 41, 59));
+                cell.Box.BorderBrush = new SolidColorBrush(Color.FromRgb(71, 85, 105));
+            }
+
+            StatusText.Text = $"Словарь загружен: {wordService.FiveLetterWords.Count} простых слов. Начинайте ввод.";
         }
 
-        private void SetImageSource(Image image, string fileName)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            try
-            {
-                image.Source = new BitmapImage(new Uri($"pack://application:,,,/Images/{fileName}"));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка загрузки изображения: {ex.Message}");
-            }
-        }
+            if (gameFinished)
+                return;
 
-        private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Обработка русских букв
-            if (e.Key >= Key.A && e.Key <= Key.Z)
+            if (RussianKeyboardMap.TryGetValue(e.Key, out string? letter))
             {
-                string russianLetter = ConvertToRussian(e.Key.ToString());
-                AddLetter(russianLetter);
-            }
-            // Обработка специальных символов, которые соответствуют русским буквам
-            else if (e.Key == Key.Oem4 || e.Key == Key.Oem6 ||  // [ и ]
-                     e.Key == Key.Oem1 || e.Key == Key.Oem7 ||  // ; и '
-                     e.Key == Key.OemComma || e.Key == Key.OemPeriod)  // , и .
-            {
-                string englishSymbol = KeyToSymbol(e.Key);
-                string russianLetter = ConvertToRussian(englishSymbol);
-                AddLetter(russianLetter);
+                AddLetter(letter);
+                e.Handled = true;
             }
             else if (e.Key == Key.Enter)
             {
                 CheckWord();
+                e.Handled = true;
             }
             else if (e.Key == Key.Back)
             {
                 RemoveLetter();
+                e.Handled = true;
             }
-        }
-
-        private string KeyToSymbol(Key key)
-        {
-            switch (key)
-            {
-                case Key.Oem4: return "[";    // Х
-                case Key.Oem6: return "]";    // Ъ
-                case Key.Oem1: return ";";    // Ж
-                case Key.Oem7: return "'";    // Э
-                case Key.OemComma: return ","; // Б
-                case Key.OemPeriod: return "."; // Ю
-                default: return key.ToString();
-            }
-        }
-
-        private string ConvertToRussian(string englishLetter)
-        {
-            var mapping = new Dictionary<string, string>
-            {
-                {"Q", "Й"}, {"W", "Ц"}, {"E", "У"}, {"R", "К"}, {"T", "Е"},
-                {"Y", "Н"}, {"U", "Г"}, {"I", "Ш"}, {"O", "Щ"}, {"P", "З"},
-                {"A", "Ф"}, {"S", "Ы"}, {"D", "В"}, {"F", "А"}, {"G", "П"},
-                {"H", "Р"}, {"J", "О"}, {"K", "Л"}, {"L", "Д"},
-                {"Z", "Я"}, {"X", "Ч"}, {"C", "С"}, {"V", "М"}, {"B", "И"},
-                {"N", "Т"}, {"M", "Ь"},
-                
-                // Добавляем недостающие буквы для английской раскладки
-                {"[", "Х"}, {"]", "Ъ"},
-                {";", "Ж"}, {"'", "Э"},
-                {",", "Б"}, {".", "Ю"}
-             };
-
-            return mapping.ContainsKey(englishLetter) ? mapping[englishLetter] : englishLetter;
         }
 
         private void KeyboardButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = (Button)sender;
-            AddLetter(button.Content.ToString());
+            if (sender is Button button && button.Tag is string letter)
+            {
+                AddLetter(letter);
+                Focus();
+            }
         }
 
         private void EnterButton_Click(object sender, RoutedEventArgs e)
         {
             CheckWord();
+            Focus();
         }
 
         private void BackspaceButton_Click(object sender, RoutedEventArgs e)
         {
             RemoveLetter();
+            Focus();
         }
 
         private void AddLetter(string letter)
         {
-            if (currentAttempt >= MaxAttempts || currentPosition >= WordLength)
+            if (gameFinished || currentAttempt >= MaxAttempts || currentPosition >= WordLength)
                 return;
 
             int index = currentAttempt * WordLength + currentPosition;
-            if (index < letterLabels.Count)
-            {
-                letterLabels[index].Content = letter;
-                currentPosition++;
-            }
+
+            cells[index].Text.Text = letter;
+            currentPosition++;
         }
 
         private void RemoveLetter()
         {
-            if (currentPosition > 0)
-            {
-                currentPosition--;
-                int index = currentAttempt * WordLength + currentPosition;
-                letterLabels[index].Content = "";
-            }
+            if (gameFinished || currentPosition <= 0)
+                return;
+
+            currentPosition--;
+
+            int index = currentAttempt * WordLength + currentPosition;
+            cells[index].Text.Text = string.Empty;
         }
 
         private void CheckWord()
         {
+            if (gameFinished)
+                return;
+
             if (currentPosition != WordLength)
             {
-                MessageBox.Show("Введите слово из 5 букв!", "Внимание",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageWindow.ShowMessage(this, "Внимание", "Введите слово из 5 букв.");
                 return;
             }
-            else
+
+            string currentWord = GetCurrentWord();
+
+            if (!wordService.ContainsFiveLetterWord(currentWord))
             {
-                // Получаем текущее слово
-                string currentWord = "";
-                for (int i = 0; i < WordLength; i++)
-                {
-                    int index = currentAttempt * WordLength + i;
-                    if (letterLabels[index].Content != null)
-                    {
-                        currentWord += letterLabels[index].Content.ToString();
-                    }
-                }
+                MessageWindow.ShowMessage(
+                    this,
+                    "Такого слова нет",
+                    "Введите простое существительное в единственном числе из 5 букв.");
 
-                // Проверяем, есть ли такое слово в словаре
-                if (!russianWords.Contains(currentWord, StringComparer.OrdinalIgnoreCase))
-                {
-                    MessageBox.Show("Такого слова нет в словаре!", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
-                }
-
-                // Создаем копию загаданного слова для отслеживания использованных букв
-                var targetWordChars = targetWord.ToCharArray();
-                var currentWordChars = currentWord.ToCharArray();
-
-                // Массив для хранения состояния каждой буквы
-                var letterStates = new LetterState[WordLength];
-
-                // Первый проход: отмечаем правильные позиции (зеленые)
-                for (int i = 0; i < WordLength; i++)
-                {
-                    if (currentWordChars[i] == targetWordChars[i])
-                    {
-                        letterStates[i] = LetterState.Correct;
-                        targetWordChars[i] = ' '; // Помечаем букву как использованную
-                    }
-                }
-
-                // Второй проход: отмечаем буквы, которые есть в слове, но не на своих местах (синие)
-                for (int i = 0; i < WordLength; i++)
-                {
-                    if (letterStates[i] == LetterState.Correct)
-                        continue; // Уже обработано
-
-                    char currentChar = currentWordChars[i];
-
-                    // Ищем такую же букву в загаданном слове
-                    int foundIndex = Array.IndexOf(targetWordChars, currentChar);
-                    if (foundIndex >= 0)
-                    {
-                        letterStates[i] = LetterState.Present;
-                        targetWordChars[foundIndex] = ' '; // Помечаем букву как использованную
-                    }
-                    else
-                    {
-                        letterStates[i] = LetterState.Absent;
-                    }
-                }
-
-                // Применяем состояния к ячейкам
-                for (int i = 0; i < WordLength; i++)
-                {
-                    int index = currentAttempt * WordLength + i;
-                    UpdateLetterBackground(letterImages[index], letterStates[i]);
-                }
-
-                // Проверяем победу
-                if (currentWord == targetWord)
-                {
-
-                    // Показываем окно выбора после победы
-                    ShowGameOverWindow(true);
-                    return;
-                }
-
-                currentAttempt++;
-                currentPosition = 0;
-
-                // Проверяем поражение
-                if (currentAttempt >= MaxAttempts)
-                {
-                    MessageBox.Show($"Игра окончена! Загаданное слово: {targetWord}", "Конец игры",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
-
-                    // Показываем окно выбора после поражения
-                    ShowGameOverWindow(false);
-                }
+                return;
             }
-        }
 
-        private void ShowGameOverWindow(bool isWin)
-        {
-            ExitOrAgain gameOverWindow = new ExitOrAgain();
+            LetterState[] states = GetLetterStates(currentWord, targetWord);
 
-            // Можно настроить окно в зависимости от результата
-            if (isWin)
+            for (int i = 0; i < WordLength; i++)
             {
-                gameOverWindow.Title = "Победа!";
-                // Можно изменить изображение или текст для победы
+                int index = currentAttempt * WordLength + i;
+                ApplyCellState(cells[index], states[i]);
+            }
+
+            if (currentWord == targetWord)
+            {
+                gameFinished = true;
+                StatusText.Text = "Победа! Нажмите «Новая игра» или вернитесь в меню.";
+
+                MessageWindow.ShowMessage(
+                    this,
+                    "Победа",
+                    $"Вы угадали слово: {targetWord}.");
+
+                return;
+            }
+
+            currentAttempt++;
+            currentPosition = 0;
+
+            if (currentAttempt >= MaxAttempts)
+            {
+                gameFinished = true;
+                StatusText.Text = $"Игра окончена. Загаданное слово: {targetWord}.";
+
+                MessageWindow.ShowMessage(
+                    this,
+                    "Игра окончена",
+                    $"Попытки закончились. Загаданное слово: {targetWord}.");
             }
             else
             {
-                gameOverWindow.Title = "Игра окончена";
-                // Можно изменить изображение или текст для поражения
+                StatusText.Text = $"Неверно. Осталось попыток: {MaxAttempts - currentAttempt}.";
             }
-
-            gameOverWindow.Owner = this;
-            gameOverWindow.ShowDialog();
-
-            // После закрытия окна выбора, закрываем и основное окно игры
-            this.Close();
         }
 
-        private void UpdateLetterBackground(Image image, LetterState state)
+        private string GetCurrentWord()
         {
-            string imageFile = state switch
+            return string.Concat(
+                Enumerable.Range(0, WordLength)
+                    .Select(i => cells[currentAttempt * WordLength + i].Text.Text));
+        }
+
+        private static LetterState[] GetLetterStates(string currentWord, string targetWord)
+        {
+            var states = new LetterState[WordLength];
+
+            char[] targetChars = targetWord.ToCharArray();
+            char[] currentChars = currentWord.ToCharArray();
+
+            for (int i = 0; i < WordLength; i++)
             {
-                LetterState.Correct => "Truerectangle.png",
-                LetterState.Present => "fALSErectangle.png",
-                LetterState.Absent => "nULLrectangle.png",
-                _ => "nULLrectangle.png"
+                if (currentChars[i] == targetChars[i])
+                {
+                    states[i] = LetterState.Correct;
+                    targetChars[i] = '*';
+                }
+            }
+
+            for (int i = 0; i < WordLength; i++)
+            {
+                if (states[i] == LetterState.Correct)
+                    continue;
+
+                int foundIndex = Array.IndexOf(targetChars, currentChars[i]);
+
+                if (foundIndex >= 0)
+                {
+                    states[i] = LetterState.Present;
+                    targetChars[foundIndex] = '*';
+                }
+                else
+                {
+                    states[i] = LetterState.Absent;
+                }
+            }
+
+            return states;
+        }
+
+        private static void ApplyCellState(CellView cell, LetterState state)
+        {
+            Color color = state switch
+            {
+                LetterState.Correct => Color.FromRgb(22, 163, 74),
+                LetterState.Present => Color.FromRgb(37, 99, 235),
+                LetterState.Absent => Color.FromRgb(51, 65, 85),
+                _ => Color.FromRgb(30, 41, 59)
             };
 
-            SetImageSource(image, imageFile);
+            cell.Box.Background = new SolidColorBrush(color);
+            cell.Box.BorderBrush = new SolidColorBrush(color);
+        }
+
+        private void NewGame_Click(object sender, RoutedEventArgs e)
+        {
+            StartNewGame();
+            Focus();
+        }
+
+        private void MainMenu_Click(object sender, RoutedEventArgs e)
+        {
+            var openWindow = new OpenWindow();
+            openWindow.Show();
+            Close();
         }
     }
 
     public enum LetterState
     {
         Empty,
-        Correct,    // Правильная буква на правильной позиции (Truerectangle.png)
-        Present,    // Буква есть в слове, но не на этой позиции (fALSErectangle.png)
-        Absent      // Буквы нет в слове (nULLrectangle.png)
+        Correct,
+        Present,
+        Absent
+    }
+
+    public class CellView
+    {
+        public CellView(Border box, TextBlock text)
+        {
+            Box = box;
+            Text = text;
+        }
+
+        public Border Box { get; }
+
+        public TextBlock Text { get; }
     }
 }

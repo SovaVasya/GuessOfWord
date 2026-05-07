@@ -1,50 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace GuessOfWord
 {
-    /// <summary>
-    /// Логика взаимодействия для OpenWindow.xaml
-    /// </summary>
     public partial class OpenWindow : Window
     {
         public OpenWindow()
         {
             InitializeComponent();
-            Height += 20;
-            Width += 20;
+            ThemeHelper.ApplyTheme(this, RootGrid);
         }
 
         private void Game(object sender, RoutedEventArgs e)
         {
-            // Запуск основной игры
-            MainWindow mainWindow = new MainWindow();
+            var mainWindow = new MainWindow();
             mainWindow.Show();
-            this.Close();
+            Close();
         }
 
-        private void Rule(object sender, RoutedEventArgs e)
+        private void Anagram(object sender, RoutedEventArgs e)
         {
-            // Открытие окна с правилами
-            Rules rulesWindow = new Rules();
-            rulesWindow.Owner = this;
-            rulesWindow.ShowDialog();
+            var anagramWindow = new AnagramWindow();
+            anagramWindow.Show();
+            Close();
+        }
+
+        private void Memory(object sender, RoutedEventArgs e)
+        {
+            var memoryWindow = new MemoryWindow();
+            memoryWindow.Show();
+            Close();
+        }
+
+        private void Settings(object sender, RoutedEventArgs e)
+        {
+            var settingsWindow = new SettingsWindow();
+            settingsWindow.Show();
+            Close();
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            // Выход из приложения
             Application.Current.Shutdown();
         }
     }

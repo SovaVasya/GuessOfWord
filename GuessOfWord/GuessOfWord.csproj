@@ -26,4 +26,9 @@
     <Resource Include="Images\Плашка.png" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="Data\words_ru_5.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 </Project>
