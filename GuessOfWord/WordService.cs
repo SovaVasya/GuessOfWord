@@ -14,9 +14,9 @@ namespace GuessOfWord
         // Локальный файл со словами. Он нужен, если нет интернета.
         private const string LocalDictionaryPath = "Data/words_ru_5.txt";
 
-        // Онлайн-словарь слов из 5 букв.
-        private const string OnlineDictionaryUrl =
-            "https://raw.githubusercontent.com/mediahope/Wordle-Russian-Dictionary/main/Russian.txt";
+        //// Онлайн-словарь слов из 5 букв.
+        //private const string OnlineDictionaryUrl =
+        //    "https://raw.githubusercontent.com/mediahope/Wordle-Russian-Dictionary/main/Russian.txt";
 
         private static readonly Random Random = new Random();
 
@@ -75,21 +75,21 @@ namespace GuessOfWord
             new AnagramPuzzle("АПЕЛЬСИН", new[] { "ПЕНА", "ПИЛА", "ЛИСА", "СИЛА", "ЛЕС", "САНИ" }),
             new AnagramPuzzle("КОРАБЛЬ", new[] { "КРАБ", "КОРА", "ЛОБ", "БРАК", "БОР", "РАБ" }),
             new AnagramPuzzle("ТЕЛЕФОН", new[] { "ТЕЛО", "ЛЕТО", "ФОН", "ТОН", "ФЕН" }),
-            new AnagramPuzzle("ПОДАРОК", new[] { "ДАР", "КОД", "РОД", "ПАРК", "КОРА", "ПОРА" }),
+            new AnagramPuzzle("ПОДАРОК", new[] { "ДАР", "КОД", "РОД", "ПАРК", "РОК", "ПОРА" }),
             new AnagramPuzzle("МОЛОТОК", new[] { "МОЛОТ", "КОТ", "ЛОМ", "ТОК", "ОКО" }),
-            new AnagramPuzzle("КАРАНДАШ", new[] { "КРАН", "ДАР", "ШАР", "РАНА", "АРКА" }),
-            new AnagramPuzzle("БАРАБАН", new[] { "БАРАН", "БАР", "БАБА", "РАНА", "БАНЯ" }),
-            new AnagramPuzzle("САМОЛЕТ", new[] { "МОСТ", "СОЛО", "ЛЕТО", "МЕЛ", "СОМ", "ТЕЛО" }),
+            new AnagramPuzzle("КАРАНДАШ", new[] { "КРАН", "КАРА", "ШАР", "РАНА", "АРКА" }),
+            new AnagramPuzzle("БАРАБАН", new[] { "БАРАН", "БАР", "БАН", "РАНА"}),
+            new AnagramPuzzle("САМОЛЕТ", new[] { "МОСТ", "АТОМ", "ЛЕТО", "МЕЛ", "ЛОТ", "ТЕЛО" }),
             new AnagramPuzzle("МАГАЗИН", new[] { "МАГ", "ЗИМА", "МИНА", "ГАЗ", "ЗНАК", "НИЗ" }),
-            new AnagramPuzzle("ПИРАМИДА", new[] { "МИР", "ПАРА", "ДАР", "РАМА", "ПИР" }),
-            new AnagramPuzzle("БИБЛИОТЕКА", new[] { "БИЛЕТ", "БЛОК", "КИТ", "ЛЕТО", "ТЕЛО", "БАК" }),
-            new AnagramPuzzle("КАРАМЕЛЬ", new[] { "КАРА", "МЕЛ", "РАК", "ЛАК", "МЕРА", "РЕКА" }),
-            new AnagramPuzzle("ПЛАНЕТА", new[] { "ПЛАН", "ЛЕНТА", "ПЕНА", "ЛАПА", "ТЕНЬ", "ПЛАТА" }),
+            new AnagramPuzzle("ПИРАМИДА", new[] { "МИР", "ПАРА", "ПАР", "РАМА", "ПИР" }),
+            new AnagramPuzzle("БИБЛИОТЕКА", new[] { "БИЛЕТ", "БЛОК", "КИТ", "БОЛТ", "ТОЛК", "АЛИБИ" }),
+            new AnagramPuzzle("КАРАМЕЛЬ", new[] { "РЕКЛАМА", "МЕЛ", "РАК", "ЛЕКАРЬ", "МЕРА", "РЕКА" }),
+            new AnagramPuzzle("ПЛАНЕТА", new[] { "ПЛАН", "ЛЕНТА", "ПЕНА", "ЛАПА", "ПЛЕН", "ПЛАТА" }),
             new AnagramPuzzle("СНЕГОВИК", new[] { "СНЕГ", "ВЕНОК", "КИНО", "ВЕК", "НОС", "СОК" }),
-            new AnagramPuzzle("ВЕЛОСИПЕД", new[] { "ЛЕС", "ПОЛЕ", "СЛЕД", "ВЕС", "ДЕЛО", "ПЕС" }),
-            new AnagramPuzzle("ПАРОВОЗ", new[] { "РОЗА", "ПАР", "ВОР", "ЗОВ", "ПОРА", "ВОЗ" }),
-            new AnagramPuzzle("МАНДАРИН", new[] { "МИР", "ДАР", "РАНА", "МИНА", "АРИЯ" }),
-            new AnagramPuzzle("ПЕРЧАТКА", new[] { "ПАРК", "РЕКА", "КАРТА", "ТРАК", "ПЕЧКА", "АРКА" })
+            new AnagramPuzzle("ВЕЛОСИПЕД", new[] { "СЕДЛО", "ВИДЕО", "СЛЕД", "ВЕС", "ДЕЛО", "ПЕС" }),
+            new AnagramPuzzle("ПАРОВОЗ", new[] { "РОЗА", "ПРАВО", "ВОР", "ЗОВ", "ВЗОР", "ОПОРА" }),
+            new AnagramPuzzle("МАНДАРИН", new[] { "ДАМА", "ДРАМА", "РАНА", "МИНА", "МАРИНАД" }),
+            new AnagramPuzzle("ПЕРЧАТКА", new[] { "ПАРК", "ПАКЕТ", "КАРТА", "ЧЕК", "ПЕЧКА", "ПАКТ" })
         };
 
         public IReadOnlyList<string> FiveLetterWords => fiveLetterWords;
@@ -104,7 +104,7 @@ namespace GuessOfWord
             var loadedWords = new List<string>();
 
             // 1. Сначала пробуем загрузить слова с сайта.
-            loadedWords.AddRange(await LoadWordsFromInternetAsync());
+            //loadedWords.AddRange(await LoadWordsFromInternetAsync());
 
             // 2. Если сайт не загрузился, берем слова из локального файла.
             if (loadedWords.Count == 0)
@@ -191,26 +191,26 @@ namespace GuessOfWord
             return true;
         }
 
-        private static async Task<IEnumerable<string>> LoadWordsFromInternetAsync()
-        {
-            try
-            {
-                using var httpClient = new HttpClient
-                {
-                    Timeout = TimeSpan.FromSeconds(8)
-                };
+        //private static async Task<IEnumerable<string>> LoadWordsFromInternetAsync()
+        //{
+        //    try
+        //    {
+        //        using var httpClient = new HttpClient
+        //        {
+        //            Timeout = TimeSpan.FromSeconds(8)
+        //        };
 
-                string text = await httpClient.GetStringAsync(OnlineDictionaryUrl);
+        //        string text = await httpClient.GetStringAsync(OnlineDictionaryUrl);
 
-                return text.Split(
-                    new[] { '\r', '\n', ',', ';', ' ', '\t' },
-                    StringSplitOptions.RemoveEmptyEntries);
-            }
-            catch
-            {
-                return Array.Empty<string>();
-            }
-        }
+        //        return text.Split(
+        //            new[] { '\r', '\n', ',', ';', ' ', '\t' },
+        //            StringSplitOptions.RemoveEmptyEntries);
+        //    }
+        //    catch
+        //    {
+        //        return Array.Empty<string>();
+        //    }
+        //}
 
         private static IEnumerable<string> LoadWordsFromLocalFile()
         {
