@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GuessOfWord
@@ -11,19 +12,24 @@ namespace GuessOfWord
     {
         private const int GuessWordLength = 5;
 
-        // Локальный файл со словами. Он нужен, если нет интернета.
-        private const string LocalDictionaryPath = "Data/words_ru_5.txt";
+        // Полный словарь. Используется для проверки введенного слова.
+        private const string FullDictionaryPath = "Data/words_ru_5_all.txt";
 
-        //// Онлайн-словарь слов из 5 букв.
-        //private const string OnlineDictionaryUrl =
-        //    "https://raw.githubusercontent.com/mediahope/Wordle-Russian-Dictionary/main/Russian.txt";
+        // Простой словарь. Используется для выбора загаданного слова.
+        private const string EasyDictionaryPath = "Data/words_ru_5_easy.txt";
+
+        // Онлайн-словарь слов из 5 букв.
+        // Если локального полного словаря нет, программа попробует загрузить слова отсюда.
+        private const string OnlineDictionaryUrl =
+            "https://raw.githubusercontent.com/mediahope/Wordle-Russian-Dictionary/main/Russian.txt";
 
         private static readonly Random Random = new Random();
 
         private static readonly HashSet<char> AllowedLetters = new HashSet<char>(
             "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЫЬЭЮЯ".ToCharArray());
 
-        private readonly List<string> fiveLetterWords = new List<string>();
+        private readonly List<string> allFiveLetterWords = new List<string>();
+        private readonly List<string> easyFiveLetterWords = new List<string>();
 
         private readonly List<string> fallbackWords = new List<string>
         {
@@ -61,11 +67,11 @@ namespace GuessOfWord
             "СУТКИ", "СУШКА", "СЦЕНА", "ТАБЛО", "ТАЙНА",
             "ТАКСИ", "ТЕАТР", "ТЕПЛО", "ТЕСТО", "ТИГР",
             "ТОЛПА", "ТРАВА", "ТУМАН", "ТУМБА", "УГОЛЬ",
-            "УЗОР", "УЛИЦА", "УСПЕХ", "ФОКУС", "ФОРМА",
-            "ФРУКТ", "ХАЛАТ", "ХЛЕБ", "ЦАПЛЯ", "ЦВЕТ",
-            "ЦИФРА", "ЧАЙКА", "ЧАСЫ", "ЧЕРТА", "ЧИСЛО",
+            "ИСКРА", "УЛИЦА", "УСПЕХ", "ФОКУС", "ФОРМА",
+            "ФРУКТ", "ХАЛАТ", "ПУШКА", "ЦАПЛЯ", "ПАСТА",
+            "ЦИФРА", "ЧАЙКА", "ШУТКА", "ЧЕРТА", "ЧИСЛО",
             "ШАРИК", "ШКОЛА", "ШТОРА", "ШТУКА", "ЩЕНОК",
-            "ЭТАЖ", "ЯКОРЬ"
+            "ПОВОД", "ЯКОРЬ"
         };
 
         private readonly List<AnagramPuzzle> anagramPuzzles = new List<AnagramPuzzle>
@@ -92,66 +98,50 @@ namespace GuessOfWord
             new AnagramPuzzle("ПЕРЧАТКА", new[] { "ПАРК", "ПАКЕТ", "КАРТА", "ЧЕК", "ПЕЧКА", "ПАКТ" })
         };
 
-        public IReadOnlyList<string> FiveLetterWords => fiveLetterWords;
+        // Для совместимости со старым MainWindow.xaml.cs.
+        // Здесь хранятся простые слова, из которых выбирается загаданное.
+        public IReadOnlyList<string> FiveLetterWords => easyFiveLetterWords;
+
+        // Полный словарь для проверки введенных слов.
+        public IReadOnlyList<string> AllFiveLetterWords => allFiveLetterWords;
 
         public IReadOnlyList<AnagramPuzzle> AnagramPuzzles => anagramPuzzles;
 
         public async Task LoadAsync()
         {
-            if (fiveLetterWords.Count > 0)
+            if (allFiveLetterWords.Count > 0 && easyFiveLetterWords.Count > 0)
                 return;
 
-            var loadedWords = new List<string>();
+            LoadEasyWords();
+            await LoadFullWordsAsync();
 
-            // 1. Сначала пробуем загрузить слова с сайта.
-            //loadedWords.AddRange(await LoadWordsFromInternetAsync());
-
-            // 2. Если сайт не загрузился, берем слова из локального файла.
-            if (loadedWords.Count == 0)
+            // Если в полном словаре почему-то нет простых слов, добавляем их.
+            // Так игрок точно сможет вводить слова из простого словаря.
+            foreach (string easyWord in easyFiveLetterWords)
             {
-                loadedWords.AddRange(LoadWordsFromLocalFile());
+                if (!allFiveLetterWords.Contains(easyWord))
+                {
+                    allFiveLetterWords.Add(easyWord);
+                }
             }
 
-            // 3. Если нет ни сайта, ни файла, используем резервный список.
-            if (loadedWords.Count == 0)
-            {
-                loadedWords.AddRange(fallbackWords);
-            }
-
-            fiveLetterWords.Clear();
-
-            fiveLetterWords.AddRange(
-                loadedWords
-                    .Select(NormalizeWord)
-                    .Where(IsValidFiveLetterWord)
-                    .Distinct()
-                    .OrderBy(word => word));
-
-            // Чтобы программа точно не осталась без слов.
-            if (fiveLetterWords.Count == 0)
-            {
-                fiveLetterWords.AddRange(
-                    fallbackWords
-                        .Select(NormalizeWord)
-                        .Where(IsValidFiveLetterWord)
-                        .Distinct()
-                        .OrderBy(word => word));
-            }
+            allFiveLetterWords.Sort();
         }
 
         public string GetRandomFiveLetterWord()
         {
-            if (fiveLetterWords.Count == 0)
-                throw new InvalidOperationException("Словарь не загружен. Сначала вызовите LoadAsync().");
+            if (easyFiveLetterWords.Count == 0)
+                throw new InvalidOperationException("Простой словарь не загружен.");
 
-            return fiveLetterWords[Random.Next(fiveLetterWords.Count)];
+            return easyFiveLetterWords[Random.Next(easyFiveLetterWords.Count)];
         }
 
         public bool ContainsFiveLetterWord(string word)
         {
             string normalizedWord = NormalizeWord(word);
 
-            return fiveLetterWords.Contains(normalizedWord);
+            // Проверяем по полному словарю, а не по простому.
+            return allFiveLetterWords.Contains(normalizedWord);
         }
 
         public AnagramPuzzle GetRandomAnagramPuzzle()
@@ -163,7 +153,7 @@ namespace GuessOfWord
         {
             string normalizedWord = NormalizeWord(word);
 
-            return fiveLetterWords.Contains(normalizedWord)
+            return allFiveLetterWords.Contains(normalizedWord)
                    || anagramPuzzles.Any(puzzle => puzzle.Answers.Contains(normalizedWord));
         }
 
@@ -191,39 +181,229 @@ namespace GuessOfWord
             return true;
         }
 
-        //private static async Task<IEnumerable<string>> LoadWordsFromInternetAsync()
-        //{
-        //    try
-        //    {
-        //        using var httpClient = new HttpClient
-        //        {
-        //            Timeout = TimeSpan.FromSeconds(8)
-        //        };
+        private void LoadEasyWords()
+        {
+            easyFiveLetterWords.Clear();
 
-        //        string text = await httpClient.GetStringAsync(OnlineDictionaryUrl);
+            IEnumerable<string> loadedWords = LoadWordsFromLocalFile(EasyDictionaryPath);
 
-        //        return text.Split(
-        //            new[] { '\r', '\n', ',', ';', ' ', '\t' },
-        //            StringSplitOptions.RemoveEmptyEntries);
-        //    }
-        //    catch
-        //    {
-        //        return Array.Empty<string>();
-        //    }
-        //}
+            if (!loadedWords.Any())
+            {
+                loadedWords = fallbackWords;
+            }
 
-        private static IEnumerable<string> LoadWordsFromLocalFile()
+            easyFiveLetterWords.AddRange(
+                loadedWords
+                    .Select(NormalizeWord)
+                    .Where(IsValidFiveLetterWord)
+                    .Distinct()
+                    .OrderBy(word => word));
+
+            if (easyFiveLetterWords.Count == 0)
+            {
+                easyFiveLetterWords.AddRange(
+                    fallbackWords
+                        .Select(NormalizeWord)
+                        .Where(IsValidFiveLetterWord)
+                        .Distinct()
+                        .OrderBy(word => word));
+            }
+        }
+
+        private async Task LoadFullWordsAsync()
+        {
+            allFiveLetterWords.Clear();
+
+            IEnumerable<string> loadedWords = LoadWordsFromLocalFile(FullDictionaryPath);
+
+            // Если полного файла нет, пробуем скачать слова с сайта vfrsute.ru.
+            if (!loadedWords.Any())
+            {
+                loadedWords = await LoadWordsFromVfrsuteAsync();
+
+                if (loadedWords.Any())
+                {
+                    SaveWordsToLocalFile(FullDictionaryPath, loadedWords);
+                }
+            }
+
+            // Если сайт vfrsute.ru не сработал, пробуем запасной онлайн-словарь.
+            if (!loadedWords.Any())
+            {
+                loadedWords = await LoadWordsFromInternetAsync();
+
+                if (loadedWords.Any())
+                {
+                    SaveWordsToLocalFile(FullDictionaryPath, loadedWords);
+                }
+            }
+
+            // Если ничего не загрузилось, используем простой словарь.
+            if (!loadedWords.Any())
+            {
+                loadedWords = easyFiveLetterWords;
+            }
+
+            allFiveLetterWords.AddRange(
+                loadedWords
+                    .Select(NormalizeWord)
+                    .Where(IsValidFiveLetterWord)
+                    .Distinct()
+                    .OrderBy(word => word));
+        }
+
+        private static async Task<IEnumerable<string>> LoadWordsFromVfrsuteAsync()
+        {
+            var result = new HashSet<string>();
+
+            string[] firstLetters =
+            {
+        "а", "б", "в", "г", "д", "е", "ё", "ж", "з", "и", "й",
+        "к", "л", "м", "н", "о", "п", "р", "с", "т", "у",
+        "ф", "х", "ц", "ч", "ш", "щ", "э", "ю", "я"
+    };
+
+            string[] lastLetters =
+            {
+        "а", "б", "в", "г", "д", "е", "ё", "ж", "з", "и", "й",
+        "к", "л", "м", "н", "о", "п", "р", "с", "т", "у",
+        "ф", "х", "ц", "ч", "ш", "щ", "ы", "ь", "э", "ю", "я"
+    };
+
+            try
+            {
+                using var httpClient = new HttpClient
+                {
+                    Timeout = TimeSpan.FromSeconds(12)
+                };
+
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
+
+                foreach (string firstLetter in firstLetters)
+                {
+                    foreach (string lastLetter in lastLetters)
+                    {
+                        string pageSlug = $"5-букв-первая-{firstLetter}-последняя-{lastLetter}";
+                        string encodedSlug = Uri.EscapeDataString(pageSlug);
+
+                        string url = $"https://vfrsute.ru/сканворд/{encodedSlug}/";
+
+                        try
+                        {
+                            string html = await httpClient.GetStringAsync(url);
+
+                            IEnumerable<string> wordsFromPage = ExtractFiveLetterWordsFromHtml(html);
+
+                            foreach (string word in wordsFromPage)
+                            {
+                                result.Add(word);
+                            }
+                        }
+                        catch
+                        {
+                            // Если одна страница не открылась, просто идём дальше.
+                        }
+
+                        await Task.Delay(150);
+                    }
+                }
+            }
+            catch
+            {
+                return Array.Empty<string>();
+            }
+
+            return result
+                .Where(IsValidFiveLetterWord)
+                .OrderBy(word => word)
+                .ToList();
+        }
+
+        private static IEnumerable<string> ExtractFiveLetterWordsFromHtml(string html)
+        {
+            var result = new HashSet<string>();
+
+            MatchCollection matches = Regex.Matches(
+                html,
+                @"[А-ЯЁа-яё]{5}",
+                RegexOptions.Compiled);
+
+            foreach (Match match in matches)
+            {
+                string word = NormalizeWord(match.Value);
+
+                if (IsValidFiveLetterWord(word))
+                {
+                    result.Add(word);
+                }
+            }
+
+            return result;
+        }
+
+        private static void SaveWordsToLocalFile(string relativePath, IEnumerable<string> words)
         {
             try
             {
                 string fullPath = Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory,
-                    LocalDictionaryPath);
+                    relativePath);
+
+                string? folder = Path.GetDirectoryName(fullPath);
+
+                if (!string.IsNullOrWhiteSpace(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+
+                File.WriteAllLines(
+                    fullPath,
+                    words
+                        .Select(NormalizeWord)
+                        .Where(IsValidFiveLetterWord)
+                        .Distinct()
+                        .OrderBy(word => word));
+            }
+            catch
+            {
+                // Если не получилось сохранить файл, игра всё равно продолжит работать.
+            }
+        }
+
+        private static IEnumerable<string> LoadWordsFromLocalFile(string relativePath)
+        {
+            try
+            {
+                string fullPath = Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    relativePath);
 
                 if (!File.Exists(fullPath))
                     return Array.Empty<string>();
 
                 return File.ReadAllLines(fullPath);
+            }
+            catch
+            {
+                return Array.Empty<string>();
+            }
+        }
+
+        private static async Task<IEnumerable<string>> LoadWordsFromInternetAsync()
+        {
+            try
+            {
+                using var httpClient = new HttpClient
+                {
+                    Timeout = TimeSpan.FromSeconds(8)
+                };
+
+                string text = await httpClient.GetStringAsync(OnlineDictionaryUrl);
+
+                return text.Split(
+                    new[] { '\r', '\n', ',', ';', ' ', '\t' },
+                    StringSplitOptions.RemoveEmptyEntries);
             }
             catch
             {

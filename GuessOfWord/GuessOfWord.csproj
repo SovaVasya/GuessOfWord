@@ -27,7 +27,11 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Data\words_ru_5.txt">
+		<Content Include="Data\words_ru_5_all.txt">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+
+		<Content Include="Data\words_ru_5_easy.txt">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>

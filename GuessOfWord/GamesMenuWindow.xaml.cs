@@ -31,6 +31,13 @@ namespace GuessOfWord
             Close();
         }
 
+        private void FindPair_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new FindPairWindow();
+            window.Show();
+            Close();
+        }
+
         private void FifteenPuzzle_Click(object sender, RoutedEventArgs e)
         {
             var window = new FifteenPuzzleWindow();

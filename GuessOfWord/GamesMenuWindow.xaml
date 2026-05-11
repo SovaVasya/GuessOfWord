@@ -2,25 +2,61 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Головоломки — Выбор игр"
-        Height="760"
-        Width="560"
+        Height="820"
+        Width="830"
         ResizeMode="NoResize">
     <Window.Resources>
-        <Style x:Key="MenuButton" TargetType="Button">
-            <Setter Property="Height" Value="48"/>
-            <Setter Property="Width" Value="280"/>
-            <Setter Property="Margin" Value="0,7"/>
-            <Setter Property="FontSize" Value="17"/>
+        <Style x:Key="GameCardButton" TargetType="Button">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#AA1E293B"/>
+            <Setter Property="BorderBrush" Value="#64748B"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="CardBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="24">
+                            <ContentPresenter HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"/>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CardBorder" Property="Background" Value="#CC2563EB"/>
+                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="#93C5FD"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="CardBorder" Property="Background" Value="#CC1D4ED8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SmallButton" TargetType="Button">
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Width" Value="190"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="#5C718F"/>
+            <Setter Property="Background" Value="#32568A"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="14">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="13">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -29,47 +65,266 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
-        <Border Width="430"
-                Padding="32"
-                CornerRadius="30"
-                Background="#AA0F172A"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-            <StackPanel HorizontalAlignment="Center">
-                <TextBlock Text="Выбор игр"
-                           Foreground="White"
-                           FontSize="36"
-                           FontWeight="Bold"
-                           TextAlignment="Center"/>
+        <Border Margin="34"
+                Padding="26"
+                CornerRadius="32"
+                Background="#AA0F172A">
+            <DockPanel LastChildFill="True">
 
-                <TextBlock Text="Выберите головоломку"
-                           Foreground="#DDEBFF"
-                           FontSize="16"
-                           TextAlignment="Center"
-                           Margin="0,5,0,24"/>
+                <StackPanel DockPanel.Dock="Top"
+                            Margin="0,0,0,20">
+                    <TextBlock Text="Выбор игр"
+                               Foreground="White"
+                               FontSize="38"
+                               FontWeight="Bold"
+                               TextAlignment="Center"/>
 
-                <Button Content="Угадай слово"
-                        Style="{StaticResource MenuButton}"
-                        Background="#16A34A"
-                        Click="GuessWord_Click"/>
+                    <TextBlock Text="Выберите головоломку"
+                               Foreground="#DDEBFF"
+                               FontSize="16"
+                               TextAlignment="Center"
+                               Margin="0,6,0,0"/>
+                </StackPanel>
 
-                <Button Content="Анаграмма"
-                        Style="{StaticResource MenuButton}"
-                        Click="Anagram_Click"/>
+                <StackPanel DockPanel.Dock="Bottom"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center"
+                            Margin="0,20,0,0">
+                    <Button Content="Назад"
+                            Style="{StaticResource SmallButton}"
+                            Click="Back_Click"/>
+                </StackPanel>
 
-                <Button Content="Память"
-                        Style="{StaticResource MenuButton}"
-                        Click="Memory_Click"/>
+                <UniformGrid Rows="2"
+                             Columns="3"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center">
 
-                <Button Content="Пятнашки с картинкой"
-                        Style="{StaticResource MenuButton}"
-                        Click="FifteenPuzzle_Click"/>
+                    <!-- Угадай слово -->
+                    <Button Style="{StaticResource GameCardButton}"
+                            Click="GuessWord_Click">
+                        <Grid Width="200"
+                              Height="230"
+                              Margin="16">
+                            <StackPanel VerticalAlignment="Top" Margin="-10,22,10,0">
 
-                <Button Content="Назад"
-                        Style="{StaticResource MenuButton}"
-                        Background="#32568A"
-                        Click="Back_Click"/>
-            </StackPanel>
+                                <Border Width="92"
+                                        Height="92"
+                                        CornerRadius="26"
+                                        Background="#16A34A"
+                                        >
+                                    <TextBlock Text="АБВ"
+                                               Foreground="White"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+
+                                <TextBlock Text="Угадай слово"
+                                           Foreground="White"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"/>
+
+                                <TextBlock Text="Найди слово из 5 букв за 6 попыток"
+                                           Foreground="#DDEBFF"
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+
+                    <!-- Анаграмма -->
+                    <Button Style="{StaticResource GameCardButton}"
+                            Click="Anagram_Click">
+                        <Grid Width="200"
+                              Height="230"
+                              Margin="16">
+                            <StackPanel VerticalAlignment="Top" Margin="-10,10,10,0">
+                                <Border Width="92"
+                                        Height="92"
+                                        CornerRadius="26"
+                                        Background="#7C3AED"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,16">
+                                    <TextBlock Text="↔"
+                                               Foreground="White"
+                                               FontSize="46"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+
+                                <TextBlock Text="Анаграмма"
+                                           Foreground="White"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"/>
+
+                                <TextBlock Text="Собери несколько слов из одного большого"
+                                           Foreground="#DDEBFF"
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+
+                    <!-- Память -->
+                    <Button Style="{StaticResource GameCardButton}"
+                            Click="Memory_Click">
+                        <Grid Width="200"
+                              Height="230"
+                              Margin="16">
+                            <StackPanel VerticalAlignment="Top" Margin="-10,10,10,0">
+                                <Border Width="92"
+                                        Height="92"
+                                        CornerRadius="26"
+                                        Background="#2563EB"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,16">
+                                    <TextBlock Text="123"
+                                               Foreground="White"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+
+                                <TextBlock Text="Память"
+                                           Foreground="White"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"/>
+
+                                <TextBlock Text="Запомни последовательность и повтори её"
+                                           Foreground="#DDEBFF"
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           Margin="0,8,0,0" Width="180"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+
+                    <!-- Найди пару -->
+                    <Button Style="{StaticResource GameCardButton}"
+                            Click="FindPair_Click">
+                        <Grid Width="200"
+                              Height="230"
+                              Margin="16">
+                            <StackPanel VerticalAlignment="Top" Margin="-10,10,10,0">
+                                <Border Width="92"
+                                        Height="92"
+                                        CornerRadius="26"
+                                        Background="#0891B2"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,16">
+                                    <TextBlock Text="★★"
+                                               Foreground="White"
+                                               FontSize="28"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+
+                                <TextBlock Text="Найди пару"
+                                           Foreground="White"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"/>
+
+                                <TextBlock Text="Открывай карточки и ищи одинаковые"
+                                           Foreground="#DDEBFF"
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+
+                    <!-- Пятнашки -->
+                    <Button Style="{StaticResource GameCardButton}"
+                            Click="FifteenPuzzle_Click">
+                        <Grid Width="200"
+                              Height="230"
+                              Margin="16">
+                            <StackPanel VerticalAlignment="Top" Margin="-10,10,10,0">
+                                <Border Width="92"
+                                        Height="92"
+                                        CornerRadius="26"
+                                        Background="#EA580C"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,16">
+                                    <TextBlock Text="15"
+                                               Foreground="White"
+                                               FontSize="36"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+
+                                <TextBlock Text="Пятнашки"
+                                           Foreground="White"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"/>
+
+                                <TextBlock Text="Собери картинку из перемешанных частей"
+                                           Foreground="#DDEBFF"
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+
+                    <!-- Пустая карточка под будущую игру -->
+                    <Button Style="{StaticResource GameCardButton}"
+                            IsEnabled="False"
+                            Opacity="0.55">
+                        <Grid Width="200"
+                              Height="230"
+                              Margin="16">
+                            <StackPanel VerticalAlignment="Top" Margin="-10,10,10,0">
+                                <Border Width="92"
+                                        Height="92"
+                                        CornerRadius="26"
+                                        Background="#475569"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,16">
+                                    <TextBlock Text="+"
+                                               Foreground="White"
+                                               FontSize="42"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                                </Border>
+
+                                <TextBlock Text="Скоро"
+                                           Foreground="White"
+                                           FontSize="20"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"/>
+
+                                <TextBlock Text="Место для новой головоломки"
+                                           Foreground="#DDEBFF"
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           Margin="0,8,0,0" Width="183"/>
+                            </StackPanel>
+                        </Grid>
+                    </Button>
+
+                </UniformGrid>
+            </DockPanel>
         </Border>
     </Grid>
 </Window>
