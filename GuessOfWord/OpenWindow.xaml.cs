@@ -10,35 +10,21 @@ namespace GuessOfWord
             ThemeHelper.ApplyTheme(this, RootGrid);
         }
 
-        private void Game(object sender, RoutedEventArgs e)
+        private void Games_Click(object sender, RoutedEventArgs e)
         {
-            var mainWindow = new MainWindow();
-            mainWindow.Show();
+            var gamesMenuWindow = new GamesMenuWindow();
+            gamesMenuWindow.Show();
             Close();
         }
 
-        private void Anagram(object sender, RoutedEventArgs e)
-        {
-            var anagramWindow = new AnagramWindow();
-            anagramWindow.Show();
-            Close();
-        }
-
-        private void Memory(object sender, RoutedEventArgs e)
-        {
-            var memoryWindow = new MemoryWindow();
-            memoryWindow.Show();
-            Close();
-        }
-
-        private void Settings(object sender, RoutedEventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
             var settingsWindow = new SettingsWindow();
             settingsWindow.Show();
             Close();
         }
 
-        private void Exit(object sender, RoutedEventArgs e)
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }

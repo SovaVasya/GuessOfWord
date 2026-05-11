@@ -2,14 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Головоломки"
-        Height="760"
-        Width="560"
+        Height="700"
+        Width="540"
         ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="MenuButton" TargetType="Button">
-            <Setter Property="Height" Value="50"/>
+            <Setter Property="Height" Value="52"/>
             <Setter Property="Width" Value="260"/>
-            <Setter Property="Margin" Value="0,8"/>
+            <Setter Property="Margin" Value="0,9"/>
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="White"/>
@@ -19,7 +19,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="14">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="15">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -29,8 +29,8 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
-        <Border Width="420"
-                Padding="32"
+        <Border Width="410"
+                Padding="34"
                 CornerRadius="30"
                 Background="#AA0F172A"
                 HorizontalAlignment="Center"
@@ -38,47 +38,28 @@
             <StackPanel HorizontalAlignment="Center">
                 <TextBlock Text="ГОЛОВОЛОМКИ"
                            Foreground="White"
-                           FontSize="40"
+                           FontSize="39"
                            FontWeight="Bold"
                            TextAlignment="Center"/>
 
-                <TextBlock Text="Дипломный проект"
+                <TextBlock Text="Набор логических и словесных игр"
                            Foreground="#93C5FD"
-                           FontSize="22"
+                           FontSize="20"
                            FontWeight="SemiBold"
                            TextAlignment="Center"
-                           Margin="0,4,0,8"/>
+                           Margin="0,5,0,8" Height="52"/>
 
-                <TextBlock Text="Набор логических и словесных игр"
-                           Foreground="#DDEBFF"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap"
-                           FontSize="15"
-                           Margin="0,0,0,24"/>
-
-                <Button Content="Угадай слово"
-                        Click="Game"
+                <Button Content="Выбор игр"
+                        Click="Games_Click"
                         Style="{StaticResource MenuButton}"
                         Background="#16A34A"/>
 
-                <Button Content="Анаграмма"
-                        Click="Anagram"
-                        Style="{StaticResource MenuButton}" 
-                        Background="CadetBlue"/>
-
-
-                <Button Content="Память"
-                        Click="Memory"
-                        Style="{StaticResource MenuButton}"
-                        Background="DarkSeaGreen"/>
-
-
                 <Button Content="Настройки"
-                        Click="Settings"
+                        Click="Settings_Click"
                         Style="{StaticResource MenuButton}"/>
 
                 <Button Content="Выйти"
-                        Click="Exit"
+                        Click="Exit_Click"
                         Style="{StaticResource MenuButton}"
                         Background="#32568A"/>
             </StackPanel>

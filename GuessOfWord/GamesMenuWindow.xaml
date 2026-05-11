@@ -1,0 +1,75 @@
+﻿<Window x:Class="GuessOfWord.GamesMenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Головоломки — Выбор игр"
+        Height="760"
+        Width="560"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Height" Value="48"/>
+            <Setter Property="Width" Value="280"/>
+            <Setter Property="Margin" Value="0,7"/>
+            <Setter Property="FontSize" Value="17"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#5C718F"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="14">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="RootGrid">
+        <Border Width="430"
+                Padding="32"
+                CornerRadius="30"
+                Background="#AA0F172A"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="Выбор игр"
+                           Foreground="White"
+                           FontSize="36"
+                           FontWeight="Bold"
+                           TextAlignment="Center"/>
+
+                <TextBlock Text="Выберите головоломку"
+                           Foreground="#DDEBFF"
+                           FontSize="16"
+                           TextAlignment="Center"
+                           Margin="0,5,0,24"/>
+
+                <Button Content="Угадай слово"
+                        Style="{StaticResource MenuButton}"
+                        Background="#16A34A"
+                        Click="GuessWord_Click"/>
+
+                <Button Content="Анаграмма"
+                        Style="{StaticResource MenuButton}"
+                        Click="Anagram_Click"/>
+
+                <Button Content="Память"
+                        Style="{StaticResource MenuButton}"
+                        Click="Memory_Click"/>
+
+                <Button Content="Пятнашки с картинкой"
+                        Style="{StaticResource MenuButton}"
+                        Click="FifteenPuzzle_Click"/>
+
+                <Button Content="Назад"
+                        Style="{StaticResource MenuButton}"
+                        Background="#32568A"
+                        Click="Back_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

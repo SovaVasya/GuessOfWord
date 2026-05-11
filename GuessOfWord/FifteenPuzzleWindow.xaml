@@ -1,0 +1,162 @@
+﻿<Window x:Class="GuessOfWord.FifteenPuzzleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Головоломки — Пятнашки"
+        Height="860"
+        Width="900"
+        ResizeMode="NoResize"
+        Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Width" Value="175"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#5C718F"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TileButton" TargetType="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="120"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#93C5FD"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="14"
+                                ClipToBounds="True">
+                            <ContentPresenter HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="RootGrid">
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="32">
+                <Border Padding="20"
+                        CornerRadius="24"
+                        Background="#AA0F172A">
+                    <StackPanel>
+                        <DockPanel LastChildFill="False">
+                            <StackPanel DockPanel.Dock="Left">
+                                <TextBlock Text="Пятнашки с картинкой"
+                                           Foreground="White"
+                                           FontSize="34"
+                                           FontWeight="Bold"/>
+
+                                <TextBlock Text="Передвигайте фрагменты и соберите изображение."
+                                           Foreground="#DDEBFF"
+                                           FontSize="15"/>
+                            </StackPanel>
+
+                            <Button DockPanel.Dock="Right"
+                                    Content="В меню"
+                                    Style="{StaticResource MenuButton}"
+                                    Background="#32568A"
+                                    Click="Main_Click"/>
+                        </DockPanel>
+
+                        <Grid Margin="0,18,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="180"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0">
+                                <Grid HorizontalAlignment="Center">
+                                    <Border Background="#661E293B"
+                                            CornerRadius="24"
+                                            Padding="12">
+                                        <UniformGrid x:Name="PuzzleGrid"
+                                                     Rows="4"
+                                                     Columns="4"
+                                                     Width="520"
+                                                     Height="520"/>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1"
+                                        Margin="16,0,0,0">
+                                <TextBlock Text="Образец:"
+                                           Foreground="White"
+                                           FontSize="17"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"
+                                           Margin="0,0,0,8"/>
+
+                                <Border Width="150"
+                                        Height="150"
+                                        CornerRadius="16"
+                                        BorderThickness="2"
+                                        BorderBrush="#93C5FD"
+                                        ClipToBounds="True"
+                                        HorizontalAlignment="Center">
+                                    <Image x:Name="PreviewImage"
+                                           Stretch="UniformToFill"/>
+                                </Border>
+
+                                <TextBlock x:Name="MovesText"
+                                           Text="Ходы: 0"
+                                           Foreground="White"
+                                           FontSize="17"
+                                           FontWeight="Bold"
+                                           TextAlignment="Center"
+                                           Margin="0,18,0,4"/>
+
+                                <TextBlock x:Name="StatusText"
+                                           Text="Соберите картинку."
+                                           Foreground="#DDEBFF"
+                                           FontSize="14"
+                                           TextAlignment="Center"
+                                           TextWrapping="Wrap"
+                                           Margin="0,8,0,0"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,18,0,0">
+                            <Button Content="Выбрать картинку"
+                                    Style="{StaticResource MenuButton}"
+                                    Background="#2563EB"
+                                    Click="SelectImage_Click"/>
+
+                            <Button Content="Перемешать"
+                                    Style="{StaticResource MenuButton}"
+                                    Click="Shuffle_Click"/>
+
+                            <Button Content="Подсказка"
+                                    Style="{StaticResource MenuButton}"
+                                    Click="Hint_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
