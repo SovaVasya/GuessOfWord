@@ -342,8 +342,8 @@ namespace GuessOfWord
 
         private void MainMenu_Click(object sender, RoutedEventArgs e)
         {
-            var openWindow = new OpenWindow();
-            openWindow.Show();
+            var window = new GamesMenuWindow();
+            window.Show();
             Close();
         }
 
