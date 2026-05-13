@@ -4,6 +4,7 @@
         Title="Головоломки — Найди пару"
         Height="890"
         Width="680"
+        WindowStyle="None"
         ResizeMode="NoResize"
         Loaded="Window_Loaded">
     <Window.Resources>
@@ -33,7 +34,7 @@
             <Setter Property="Width" Value="105"/>
             <Setter Property="Height" Value="105"/>
             <Setter Property="Margin" Value="8"/>
-            <Setter Property="FontSize" Value="34"/>
+            <Setter Property="FontSize" Value="38"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="#1E293B"/>
@@ -57,6 +58,13 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
+        <Border Height="34"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Panel.ZIndex="10"
+            MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        </Border>
+
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="32">
                 <Border Padding="20"

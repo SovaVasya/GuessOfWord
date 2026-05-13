@@ -4,6 +4,7 @@
         Title="Сообщение"
         Height="320"
         Width="430"
+        WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>
@@ -29,6 +30,13 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
+        <Border Height="24"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Panel.ZIndex="10"
+            MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        </Border>
+
         <Border Margin="24"
                 Padding="24"
                 CornerRadius="24"

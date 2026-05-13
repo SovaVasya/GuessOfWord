@@ -4,6 +4,7 @@
         Title="Головоломки — Угадай слово"
         Height="970"
         Width="660"
+        WindowStyle="None"
         ResizeMode="NoResize"
         Loaded="Window_Loaded"
         KeyDown="Window_KeyDown">
@@ -39,6 +40,13 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
+        <Border Height="34"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Panel.ZIndex="10"
+            MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        </Border>
+
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="32">
                 <Border Padding="18"

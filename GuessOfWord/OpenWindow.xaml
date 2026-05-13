@@ -4,6 +4,7 @@
         Title="Головоломки"
         Height="700"
         Width="540"
+        WindowStyle="None"
         ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="MenuButton" TargetType="Button">
@@ -29,6 +30,12 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
+        <Border Height="44"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Panel.ZIndex="10"
+            MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        </Border>
         <Border Width="410"
                 Padding="34"
                 CornerRadius="30"

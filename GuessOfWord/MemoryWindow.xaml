@@ -4,6 +4,7 @@
         Title="Головоломки — Память"
         Height="840"
         Width="680"
+        WindowStyle="None"
         ResizeMode="NoResize"
         Loaded="Window_Loaded">
     <Window.Resources>
@@ -32,7 +33,7 @@
             <Setter Property="Width" Value="86"/>
             <Setter Property="Height" Value="86"/>
             <Setter Property="Margin" Value="7"/>
-            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontSize" Value="30"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="#334155"/>
@@ -55,6 +56,13 @@
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
+        <Border Height="34"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Panel.ZIndex="10"
+            MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        </Border>
+
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="32">
                 <Border Padding="20"
