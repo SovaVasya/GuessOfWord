@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace GuessOfWord
 {
@@ -50,6 +51,14 @@ namespace GuessOfWord
             var window = new OpenWindow();
             window.Show();
             Close();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
     }
 }

@@ -346,6 +346,14 @@ namespace GuessOfWord
             openWindow.Show();
             Close();
         }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
     }
 
     public enum LetterState
