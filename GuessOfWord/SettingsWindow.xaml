@@ -2,14 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Настройки"
-        Height="460"
-        Width="500"
+        Height="520"
+        Width="560"
+        WindowStyle="None"
         ResizeMode="NoResize"
         Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="MenuButton" TargetType="Button">
             <Setter Property="Height" Value="44"/>
-            <Setter Property="Width" Value="190"/>
+            <Setter Property="Width" Value="150"/>
             <Setter Property="Margin" Value="6"/>
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -20,64 +21,119 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Background="{TemplateBinding Background}" CornerRadius="13">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="ThemeComboBoxItem" TargetType="ComboBoxItem">
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#1E293B"/>
+            <Setter Property="Padding" Value="12,6"/>
+        </Style>
+
+        <Style x:Key="ThemeComboBox" TargetType="ComboBox">
+            <Setter Property="Height" Value="46"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#661E293B"/>
+            <Setter Property="BorderBrush" Value="#93C5FD"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="12,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource ThemeComboBoxItem}"/>
+        </Style>
     </Window.Resources>
 
     <Grid x:Name="RootGrid">
-        <Border Width="380"
-                Padding="28"
-                CornerRadius="28"
+        <Border Height="44"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Panel.ZIndex="10"
+            MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        </Border>
+
+        <Border Width="430"
+                Padding="32"
+                CornerRadius="30"
                 Background="#AA0F172A"
+                BorderThickness="2"
+                BorderBrush="#64748B"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
             <StackPanel>
                 <TextBlock Text="Настройки"
                            Foreground="White"
-                           FontSize="34"
+                           FontSize="36"
                            FontWeight="Bold"
                            TextAlignment="Center"
                            Margin="0,0,0,10"/>
 
-                <TextBlock Text="Выберите фон. Он будет применяться ко всем окнам игры."
+                <TextBlock Text="Выберите цветовой фон. Он будет применяться ко всем окнам и основным элементам интерфейса."
                            Foreground="#DDEBFF"
                            FontSize="15"
                            TextAlignment="Center"
                            TextWrapping="Wrap"
-                           Margin="0,0,0,24"/>
+                           Margin="0,0,0,26"/>
 
-                <TextBlock Text="Фон:"
+                <TextBlock Text="Цветовая тема:"
                            Foreground="White"
                            FontSize="17"
                            FontWeight="SemiBold"
                            Margin="0,0,0,8"/>
 
                 <ComboBox x:Name="ThemeComboBox"
-                          Height="40"
-                          FontSize="16"
+                          Style="{StaticResource ThemeComboBox}"
                           Margin="0,0,0,24"
                           SelectionChanged="ThemeComboBox_SelectionChanged">
                     <ComboBoxItem Content="Темный" Tag="Dark"/>
                     <ComboBoxItem Content="Океан" Tag="Ocean"/>
                     <ComboBoxItem Content="Фиолетовый" Tag="Violet"/>
                     <ComboBoxItem Content="Светлый" Tag="Light"/>
+                    <ComboBoxItem Content="Лес" Tag="Forest"/>
+                    <ComboBoxItem Content="Закат" Tag="Sunset"/>
+                    <ComboBoxItem Content="Вишня" Tag="Cherry"/>
+                    <ComboBoxItem Content="Изумруд" Tag="Emerald"/>
+                    <ComboBoxItem Content="Кибер" Tag="Cyber"/>
                 </ComboBox>
+
+                <Border Height="76"
+                        CornerRadius="20"
+                        Background="#661E293B"
+                        BorderBrush="#64748B"
+                        BorderThickness="2"
+                        Margin="0,0,0,20">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Предпросмотр"
+                                   Foreground="White"
+                                   FontWeight="Bold"
+                                   FontSize="15"
+                                   TextAlignment="Center"/>
+                        <TextBlock x:Name="PreviewText"
+                                   Text="Текущая тема: Темный"
+                                   Foreground="#DDEBFF"
+                                   FontSize="14"
+                                   TextAlignment="Center"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+                </Border>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Content="Сохранить"
                             Style="{StaticResource MenuButton}"
                             Background="#2563EB"
-                            Click="Save_Click" Width="126"/>
+                            Click="Save_Click"/>
 
                     <Button Content="В меню"
                             Style="{StaticResource MenuButton}"
                             Background="#32568A"
-                            Click="Main_Click" Width="120"/>
+                            Click="Main_Click"/>
                 </StackPanel>
             </StackPanel>
         </Border>
