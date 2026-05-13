@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace GuessOfWord
@@ -30,8 +31,8 @@ namespace GuessOfWord
 
         private readonly string[] symbols =
         {
-            "А", "Б", "5", "★", "◆", "●", "7", "Г",
-            "Д", "9", "▲", "■", "К", "3", "Л", "М"
+            "●", "■", "▲", "◆", "★", "♥", "☀", "☁",
+            "☂", "☕", "♫", "⚑", "✿", "✦", "☘", "☾"
         };
 
         public FindPairWindow()
@@ -278,6 +279,15 @@ namespace GuessOfWord
             window.Show();
             Close();
         }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
 
         private static string GetRecordFilePath()
         {

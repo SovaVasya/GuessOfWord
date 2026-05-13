@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace GuessOfWord
@@ -17,10 +18,9 @@ namespace GuessOfWord
 
         private readonly List<string> allSymbols = new List<string>
         {
-            "1", "2", "3", "4", "5", "6", "7", "8", "9",
-            "А", "Б", "В", "Г", "Д", "Е", "Ж"
+            "●", "■", "▲", "◆", "★", "♥", "☀", "☁", "☂",
+            "☕", "♫", "⚑", "✿", "✦", "☘", "☾"
         };
-
         private int level = 1;
         private int playerIndex;
         private int record;
@@ -192,13 +192,11 @@ namespace GuessOfWord
                     SaveRecord(record);
                 }
 
-                MessageWindow.ShowMessage(
-                    this,
-                    "Правильно",
-                    $"Уровень {level} пройден. Следующий уровень будет сложнее.");
+                StatusText.Text = $"Уровень {level} пройден. Следующий уровень начинается автоматически.";
 
                 level++;
 
+                await Task.Delay(700);
                 await StartRound();
             }
         }
@@ -284,6 +282,13 @@ namespace GuessOfWord
             var openWindow = new OpenWindow();
             openWindow.Show();
             Close();
+        }
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
         }
     }
 }
