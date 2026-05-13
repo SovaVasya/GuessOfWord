@@ -80,26 +80,27 @@ namespace GuessOfWord
                     var textBlock = new TextBlock
                     {
                         Text = "",
-                        Width = 34,
-                        Height = 34,
-                        Margin = new Thickness(2),
-                        TextAlignment = TextAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center,
-                        FontSize = 20,
+                        Foreground = Brushes.White,
+                        FontSize = 22,
                         FontWeight = FontWeights.Bold,
-                        Foreground = Brushes.White
+                        TextAlignment = TextAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
                     };
+
+                    var cellGrid = new Grid();
+                    cellGrid.Children.Add(textBlock);
 
                     var border = new Border
                     {
-                        Width = 36,
-                        Height = 36,
+                        Width = 38,
+                        Height = 38,
                         Margin = new Thickness(2),
-                        CornerRadius = new CornerRadius(6),
+                        CornerRadius = new CornerRadius(8),
                         Background = new SolidColorBrush(Color.FromRgb(30, 41, 59)),
                         BorderBrush = new SolidColorBrush(Color.FromRgb(100, 116, 139)),
                         BorderThickness = new Thickness(2),
-                        Child = textBlock
+                        Child = cellGrid
                     };
 
                     cellsForWord.Add(textBlock);
@@ -268,5 +269,14 @@ namespace GuessOfWord
             openWindow.Show();
             Close();
         }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+
     }
 }
