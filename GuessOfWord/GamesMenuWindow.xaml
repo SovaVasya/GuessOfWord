@@ -5,7 +5,8 @@
         Height="820"
         Width="830"
         WindowStyle="None"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="GameCardButton" TargetType="Button">
             <Setter Property="Margin" Value="10"/>
