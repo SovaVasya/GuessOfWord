@@ -72,7 +72,7 @@
                     <StackPanel>
                         <DockPanel LastChildFill="False">
                             <StackPanel DockPanel.Dock="Left">
-                                <TextBlock Text="Пятнашки с картинкой"
+                                <TextBlock Text="Пятнашки"
                                            Foreground="White"
                                            FontSize="34"
                                            FontWeight="Bold"/>
